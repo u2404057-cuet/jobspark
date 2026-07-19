@@ -1,0 +1,135 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import { useParams, useRouter } from "next/navigation";
+import { Button, Chip, Divider, Skeleton } from "@heroui/react";
+import { JobCard, Job } from "@/components/jobs/JobCard";
+import toast from "react-hot-toast";
+
+export default function JobDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
+  const router = useRouter();
+
+  const { data: job, isLoading, error } = useQuery({
+    queryKey: ['job', id],
+    queryFn: async () => {
+      const response = await api.get(`/api/jobs/${id}`);
+      return response.data;
+    },
+    enabled: !!id,
+  });
+
+  const { data: relatedJobs } = useQuery({
+    queryKey: ['job-related', id],
+    queryFn: async () => {
+      const response = await api.get(`/api/jobs/related/${id}`);
+      return response.data;
+    },
+    enabled: !!id,
+  });
+
+  const handleApply = () => {
+    toast.success("Application started! (Demo)");
+  };
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-3xl font-bold text-danger mb-4">Job Not Found</h1>
+        <p className="text-muted mb-8">The job you're looking for doesn't exist or has been removed.</p>
+        <Button color="primary" onPress={() => router.push('/jobs')}>
+          Back to Jobs
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-8">
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-12 w-3/4 rounded-lg" />
+              <Skeleton className="h-6 w-1/2 rounded-lg" />
+              <div className="flex gap-2 pt-4">
+                <Skeleton className="h-8 w-24 rounded-full" />
+                <Skeleton className="h-8 w-24 rounded-full" />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-primary/20 rounded-xl flex items-center justify-center font-bold text-3xl text-primary">
+                  {job.company.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold">{job.title}</h1>
+                  <p className="text-xl text-muted">{job.company}</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3 mb-8">
+                <Chip variant="flat" color="primary">{job.category}</Chip>
+                <Chip variant="flat" color="success">{job.type}</Chip>
+                <Chip variant="flat" color="secondary">{job.location}</Chip>
+                <Chip variant="flat">{job.salary}</Chip>
+                <Chip variant="flat" color="warning">
+                  Posted {new Date(job.createdAt).toLocaleDateString()}
+                </Chip>
+              </div>
+
+              <div className="prose prose-invert max-w-none">
+                <h2 className="text-2xl font-bold mb-4">Job Description</h2>
+                {/* Normally we'd use dangerouslySetInnerHTML for markdown, but assuming plain text for now with newlines */}
+                <div className="whitespace-pre-wrap text-muted text-lg leading-relaxed">
+                  {job.description || "No detailed description provided."}
+                </div>
+
+                <h2 className="text-2xl font-bold mt-8 mb-4">Requirements</h2>
+                <ul className="list-disc pl-5 space-y-2 text-muted text-lg">
+                  {job.requirements?.map((req: string, i: number) => (
+                    <li key={i}>{req}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          <div className="bg-surface border border-border rounded-xl p-6 sticky top-24">
+            <h3 className="text-xl font-bold mb-4">Ready to Apply?</h3>
+            <p className="text-muted mb-6">
+              Make sure your resume is up to date and tailored to this position.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Button size="lg" color="primary" className="w-full font-bold text-lg" onPress={handleApply}>
+                Apply Now
+              </Button>
+              <Button size="lg" variant="bordered" color="primary" className="w-full" onPress={() => router.push('/ai-coach')}>
+                Prep with AI Coach
+              </Button>
+            </div>
+          </div>
+
+          {!isLoading && relatedJobs && relatedJobs.length > 0 && (
+            <div className="mt-12">
+              <h3 className="text-xl font-bold mb-4">Similar Jobs</h3>
+              <div className="flex flex-col gap-4">
+                {relatedJobs.map((relatedJob: Job) => (
+                  <JobCard key={relatedJob._id} job={relatedJob} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
