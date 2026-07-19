@@ -1,26 +1,22 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-primary: #6366F1;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #F59E0B;
+  --color-secondary-foreground: #ffffff;
+  --color-background: #0F172A;
+  --color-foreground: #F1F5F9;
+  --color-surface: #1E293B;
+  --color-surface-foreground: #F8FAFC;
+  --color-border: #334155;
+  --color-muted: #94A3B8;
+  --color-muted-foreground: #CBD5E1;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
