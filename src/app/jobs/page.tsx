@@ -131,8 +131,8 @@ export default function BrowseJobsPage() {
           <p>Failed to load jobs. Please try again later.</p>
         </div>
       ) : isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {[1, 2, 3, 4, 5, 6].map(i => <JobCardSkeleton key={i} />)}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(i => <JobCardSkeleton key={i} />)}
         </div>
       ) : data?.jobs?.length === 0 ? (
         <div className="text-center py-20 bg-surface border border-border rounded-xl">
@@ -142,7 +142,7 @@ export default function BrowseJobsPage() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
             {data?.jobs.map((job: Job) => (
               <JobCard key={job._id} job={job} />
             ))}
