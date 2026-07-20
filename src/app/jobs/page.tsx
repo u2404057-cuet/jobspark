@@ -149,23 +149,38 @@ export default function BrowseJobsPage() {
           </div>
           
           {data?.total > limit && (
-            <div className="flex justify-center items-center gap-4 mt-10">
+            <div className="flex justify-center items-center gap-2 mt-12">
               <button 
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 bg-default-100 rounded-lg font-medium hover:bg-default-200 disabled:opacity-50 transition-colors"
+                className="h-10 px-4 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-xl font-bold transition-all duration-200 disabled:opacity-40 disabled:hover:border-slate-800 disabled:hover:text-slate-300 cursor-pointer flex items-center justify-center gap-1 text-sm shadow-md"
               >
-                Previous
+                ← Prev
               </button>
-              <span className="font-medium">
-                Page {page} of {Math.ceil(data.total / limit)}
-              </span>
+              
+              {Array.from({ length: Math.ceil(data.total / limit) }).map((_, idx) => {
+                const pNum = idx + 1;
+                return (
+                  <button
+                    key={pNum}
+                    onClick={() => setPage(pNum)}
+                    className={`h-10 w-10 rounded-xl font-bold text-sm transition-all duration-200 cursor-pointer shadow-md ${
+                      page === pNum
+                        ? 'bg-primary text-white border border-primary shadow-primary/20 scale-[1.05]'
+                        : 'bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {pNum}
+                  </button>
+                );
+              })}
+
               <button 
                 onClick={() => setPage(p => Math.min(Math.ceil(data.total / limit), p + 1))}
                 disabled={page >= Math.ceil(data.total / limit)}
-                className="px-4 py-2 bg-default-100 rounded-lg font-medium hover:bg-default-200 disabled:opacity-50 transition-colors"
+                className="h-10 px-4 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-xl font-bold transition-all duration-200 disabled:opacity-40 disabled:hover:border-slate-800 disabled:hover:text-slate-300 cursor-pointer flex items-center justify-center gap-1 text-sm shadow-md"
               >
-                Next
+                Next →
               </button>
             </div>
           )}
