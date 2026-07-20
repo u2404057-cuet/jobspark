@@ -60,7 +60,27 @@ export default function ManageJobsPage() {
 
       <div className="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
         {isLoading ? (
-          <div className="p-8 text-center text-muted">Loading jobs...</div>
+          <div className="p-4 space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center justify-between py-4 border-b border-slate-800/80 last:border-0">
+                <div className="space-y-2 flex-grow">
+                  <Skeleton className="h-5 w-1/3 rounded-lg bg-slate-850" />
+                  <Skeleton className="h-3.5 w-1/4 rounded-lg bg-slate-850" />
+                </div>
+                <div className="w-24">
+                  <Skeleton className="h-6 w-16 rounded-full bg-slate-850" />
+                </div>
+                <div className="w-16">
+                  <Skeleton className="h-5 w-10 rounded-lg bg-slate-850" />
+                </div>
+                <div className="flex gap-2 justify-end w-48">
+                  <Skeleton className="h-8 w-14 rounded-lg bg-slate-850" />
+                  <Skeleton className="h-8 w-16 rounded-lg bg-slate-850" />
+                  <Skeleton className="h-8 w-16 rounded-lg bg-slate-850" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : !jobs || jobs.length === 0 ? (
           <div className="p-8 text-center text-muted">You haven't posted any jobs yet.</div>
         ) : (
