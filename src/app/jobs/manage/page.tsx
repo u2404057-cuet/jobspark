@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Skeleton } from "@heroui/react";
@@ -7,6 +8,7 @@ import toast from "react-hot-toast";
 
 export default function ManageJobsPage() {
   const queryClient = useQueryClient();
+  const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
   const { data: jobs, isLoading, error } = useQuery({
     queryKey: ['my-jobs'],
@@ -69,7 +71,6 @@ export default function ManageJobsPage() {
                   <th className="p-4 font-semibold text-sm">JOB TITLE</th>
                   <th className="p-4 font-semibold text-sm">STATUS</th>
                   <th className="p-4 font-semibold text-sm">VIEWS</th>
-                  <th className="p-4 font-semibold text-sm">POSTED DATE</th>
                   <th className="p-4 font-semibold text-sm text-right">ACTIONS</th>
                 </tr>
               </thead>
@@ -95,9 +96,6 @@ export default function ManageJobsPage() {
                         <span className="font-semibold">{job.viewCount || 0}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-sm">
-                      {new Date(job.createdAt).toLocaleDateString()}
-                    </td>
                     <td className="p-4">
                       <div className="flex justify-end gap-2">
                         <a href={`/jobs/${job._id}`} className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors text-sm font-medium">
@@ -113,11 +111,7 @@ export default function ManageJobsPage() {
                           {job.status === 'open' ? 'Close' : 'Activate'}
                         </button>
                         <button 
-                          onClick={() => {
-                            if (window.confirm("Are you sure you want to delete this job?")) {
-                              deleteMutation.mutate(job._id);
-                            }
-                          }}
+                          onClick={() => setDeleteJobId(job._id)}
                           className="p-2 text-danger hover:bg-danger/10 rounded-lg transition-colors text-sm font-medium"
                         >
                           Delete
@@ -131,6 +125,35 @@ export default function ManageJobsPage() {
           </div>
         )}
       </div>
+
+      {/* Custom Confirmation Modal */}
+      {deleteJobId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-all duration-300">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl transition-all transform duration-300">
+            <h3 className="text-xl font-bold text-white mb-2">Delete Job Listing?</h3>
+            <p className="text-slate-400 text-sm mb-6">
+              Are you sure you want to delete this job listing? This action is permanent and cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => setDeleteJobId(null)}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-sm font-semibold transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  deleteMutation.mutate(deleteJobId);
+                  setDeleteJobId(null);
+                }}
+                className="px-4 py-2 bg-danger text-white rounded-xl text-sm font-semibold hover:bg-danger/90 active:scale-[0.98] transition-all cursor-pointer shadow-md shadow-danger/20"
+              >
+                Confirm Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
