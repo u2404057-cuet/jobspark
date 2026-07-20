@@ -117,24 +117,35 @@ export default function ManageJobsPage() {
                       </div>
                     </td>
                     <td className="p-4">
-                      <div className="flex justify-end gap-2">
-                        <a href={`/jobs/${job._id}`} className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors text-sm font-medium">
-                          View
+                      <div className="flex justify-end gap-2.5">
+                        <a 
+                          href={`/jobs/${job._id}`} 
+                          className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-xl text-xs font-bold transition-all hover:bg-primary/20 flex items-center gap-1.5 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                        >
+                          <span>👁️</span> View
                         </a>
                         <button 
                           onClick={() => statusMutation.mutate({ 
                             id: job._id, 
                             status: job.status === 'open' ? 'closed' : 'open' 
                           })}
-                          className="p-2 text-foreground hover:bg-default-100 rounded-lg transition-colors text-sm font-medium"
+                          className="px-3 py-1.5 bg-slate-800 text-slate-200 border border-slate-700/60 rounded-xl text-xs font-bold transition-all hover:bg-slate-700 hover:text-white flex items-center gap-1.5 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                         >
-                          {job.status === 'open' ? 'Close' : 'Activate'}
+                          {job.status === 'open' ? (
+                            <>
+                              <span>🔒</span> Close
+                            </>
+                          ) : (
+                            <>
+                              <span>🔓</span> Activate
+                            </>
+                          )}
                         </button>
                         <button 
                           onClick={() => setDeleteJobId(job._id)}
-                          className="p-2 text-danger hover:bg-danger/10 rounded-lg transition-colors text-sm font-medium"
+                          className="px-3 py-1.5 bg-danger/10 text-danger border border-danger/20 rounded-xl text-xs font-bold transition-all hover:bg-danger/20 flex items-center gap-1.5 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                         >
-                          Delete
+                          <span>🗑️</span> Delete
                         </button>
                       </div>
                     </td>
