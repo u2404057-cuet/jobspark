@@ -79,9 +79,18 @@ export function TopNavbar() {
             <div className="w-8 h-8 rounded-full bg-slate-800 animate-pulse border border-slate-700" />
           ) : session ? (
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm border border-primary/30 shadow-inner">
-                {session.user.name?.charAt(0).toUpperCase()}
-              </div>
+              {session.user.image ? (
+                <img 
+                  src={session.user.image} 
+                  alt={session.user.name || "User Avatar"} 
+                  className="w-8 h-8 rounded-full border border-primary/30 object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm border border-primary/30 shadow-inner">
+                  {session.user.name?.charAt(0).toUpperCase()}
+                </div>
+              )}
               <span className="text-sm font-semibold text-slate-200 hidden sm:inline-block">
                 {session.user.name}
               </span>
