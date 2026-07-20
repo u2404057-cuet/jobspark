@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { Input, Button, Select, SelectItem, Pagination } from "@heroui/react";
 import { JobCard, JobCardSkeleton, Job } from "@/components/jobs/JobCard";
 
 export default function BrowseJobsPage() {
@@ -56,47 +55,48 @@ export default function BrowseJobsPage() {
 
       {/* Search and Filters */}
       <div className="bg-surface border border-border rounded-xl p-4 mb-8 shadow-sm">
-        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
-          <div className="flex-grow">
-            <Input
-              placeholder="Search by job title, skill, or company..."
+        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              placeholder="Search by job title, company, or keywords..."
+              className="w-full bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl pl-12 pr-4 h-12 outline-none transition-colors"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              startContent={<span className="text-muted">🔍</span>}
-              variant="bordered"
-              size="lg"
             />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-default-400">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
           </div>
           
-          <Select 
-            placeholder="Category" 
-            variant="bordered" 
-            size="lg"
-            className="md:w-48"
-            selectedKeys={category ? [category] : []}
+          <select 
+            value={category}
             onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+            className="md:w-48 bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
           >
+            <option value="" className="bg-background text-foreground">All Categories</option>
             {categories.map((c) => (
-              <SelectItem key={c} value={c}>{c}</SelectItem>
+              <option key={c} value={c} className="bg-background text-foreground">{c}</option>
             ))}
-          </Select>
+          </select>
           
-          <Select 
-            placeholder="Job Type" 
-            variant="bordered" 
-            size="lg"
-            className="md:w-48"
-            selectedKeys={type ? [type] : []}
+          <select 
+            value={type}
             onChange={(e) => { setType(e.target.value); setPage(1); }}
+            className="md:w-48 bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
           >
+            <option value="" className="bg-background text-foreground">All Types</option>
             {jobTypes.map((t) => (
-              <SelectItem key={t} value={t}>{t}</SelectItem>
+              <option key={t} value={t} className="bg-background text-foreground">{t}</option>
             ))}
-          </Select>
+          </select>
           
-          <Button type="submit" color="primary" size="lg" className="md:w-32">
+          <button type="submit" className="md:w-32 bg-primary text-white rounded-xl font-medium h-12 hover:opacity-90">
             Search
-          </Button>
+          </button>
         </form>
       </div>
 
@@ -107,10 +107,10 @@ export default function BrowseJobsPage() {
         </h2>
         
         {(debouncedSearch || category || type) && (
-          <Button 
-            variant="light" 
-            color="danger" 
-            onPress={() => {
+          <button 
+            type="button"
+            className="text-primary hover:bg-primary/10 px-4 py-2 rounded-lg font-medium transition-colors"
+            onClick={() => {
               setSearch("");
               setDebouncedSearch("");
               setCategory("");
@@ -119,7 +119,7 @@ export default function BrowseJobsPage() {
             }}
           >
             Clear Filters
-          </Button>
+          </button>
         )}
       </div>
 
@@ -146,15 +146,24 @@ export default function BrowseJobsPage() {
           </div>
           
           {data?.total > limit && (
-            <div className="flex justify-center mt-10">
-              <Pagination
-                total={Math.ceil(data.total / limit)}
-                page={page}
-                onChange={setPage}
-                color="primary"
-                size="lg"
-                showControls
-              />
+            <div className="flex justify-center items-center gap-4 mt-10">
+              <button 
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="px-4 py-2 bg-default-100 rounded-lg font-medium hover:bg-default-200 disabled:opacity-50 transition-colors"
+              >
+                Previous
+              </button>
+              <span className="font-medium">
+                Page {page} of {Math.ceil(data.total / limit)}
+              </span>
+              <button 
+                onClick={() => setPage(p => Math.min(Math.ceil(data.total / limit), p + 1))}
+                disabled={page >= Math.ceil(data.total / limit)}
+                className="px-4 py-2 bg-default-100 rounded-lg font-medium hover:bg-default-200 disabled:opacity-50 transition-colors"
+              >
+                Next
+              </button>
             </div>
           )}
         </>

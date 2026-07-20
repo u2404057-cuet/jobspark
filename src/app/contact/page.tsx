@@ -1,6 +1,5 @@
 "use client";
 
-import { Input, Textarea, Button, Card, CardBody } from "@heroui/react";
 import toast from "react-hot-toast";
 
 export default function ContactPage() {
@@ -30,23 +29,40 @@ export default function ContactPage() {
           </div>
         </div>
         
-        <Card className="bg-surface border border-border">
-          <CardBody className="p-8">
-            <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Input label="First Name" variant="bordered" isRequired />
-                <Input label="Last Name" variant="bordered" isRequired />
+        <div className="w-full max-w-2xl mx-auto p-8 bg-surface border border-border rounded-2xl shadow-xl mt-12">
+          <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">First Name</label>
+                <input required className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors" />
               </div>
-              <Input label="Email" type="email" variant="bordered" isRequired />
-              <Input label="Subject" variant="bordered" isRequired />
-              <Textarea label="Message" variant="bordered" minRows={4} isRequired />
-              <Button color="primary" size="lg" type="submit" className="mt-2">
-                Send Message
-              </Button>
-            </form>
-          </CardBody>
-        </Card>
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">Last Name</label>
+                <input required className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors" />
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Email</label>
+              <input required type="email" className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors" />
+            </div>
+            
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Subject</label>
+              <input required className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors" />
+            </div>
+            
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Message</label>
+              <textarea required rows={4} className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl p-3 outline-none transition-colors"></textarea>
+            </div>
+            
+            <button type="submit" className="mt-2 w-full h-12 bg-primary text-white rounded-xl font-medium hover:opacity-90">
+              Send Message
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

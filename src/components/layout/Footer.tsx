@@ -17,29 +17,29 @@ export function Footer() {
         <div>
           <h4 className="font-semibold mb-4">Platform</h4>
           <ul className="space-y-2 text-sm text-muted">
-            <li><Link href="/jobs" color="foreground">Browse Jobs</Link></li>
-            <li><Link href="/jobs/add" color="foreground">Post a Job</Link></li>
-            <li><Link href="/ai-coach" color="foreground">AI Career Coach</Link></li>
-            <li><Link href="/pricing" color="foreground">Pricing</Link></li>
+            <li><Link href="/jobs">Browse Jobs</Link></li>
+            <li><Link href="/jobs/add">Post a Job</Link></li>
+            <li><Link href="/ai-coach">AI Career Coach</Link></li>
+            <li><Link href="/pricing">Pricing</Link></li>
           </ul>
         </div>
         
         <div>
           <h4 className="font-semibold mb-4">Company</h4>
           <ul className="space-y-2 text-sm text-muted">
-            <li><Link href="/about" color="foreground">About Us</Link></li>
-            <li><Link href="/contact" color="foreground">Contact</Link></li>
-            <li><Link href="/blog" color="foreground">Blog</Link></li>
-            <li><Link href="/careers" color="foreground">Careers</Link></li>
+            <li><Link href="/about">About Us</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
+            <li><Link href="/blog">Blog</Link></li>
+            <li><Link href="/careers">Careers</Link></li>
           </ul>
         </div>
         
         <div>
           <h4 className="font-semibold mb-4">Legal</h4>
           <ul className="space-y-2 text-sm text-muted">
-            <li><Link href="/privacy" color="foreground">Privacy Policy</Link></li>
-            <li><Link href="/terms" color="foreground">Terms of Service</Link></li>
-            <li><Link href="/cookies" color="foreground">Cookie Policy</Link></li>
+            <li><Link href="/privacy">Privacy Policy</Link></li>
+            <li><Link href="/terms">Terms of Service</Link></li>
+            <li><Link href="/cookies">Cookie Policy</Link></li>
           </ul>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Card, CardBody, Chip, Button, Link } from "@heroui/react";
+import { Card, CardContent, Chip, Link } from "@heroui/react";
 
 export interface Job {
   _id: string;
@@ -16,12 +16,12 @@ export interface Job {
 export function JobCard({ job }: { job: Job }) {
   return (
     <Card className="bg-surface border border-border h-full flex flex-col">
-      <CardBody className="p-6 flex flex-col flex-grow">
+      <CardContent className="p-6 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-4">
           <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center font-bold text-xl text-primary">
             {job.company.charAt(0).toUpperCase()}
           </div>
-          <Chip size="sm" color={job.type === 'Full Time' ? 'success' : 'secondary'} variant="flat">
+          <Chip size="sm"  variant="soft">
             {job.type}
           </Chip>
         </div>
@@ -29,12 +29,12 @@ export function JobCard({ job }: { job: Job }) {
         <p className="text-muted mb-4 text-sm line-clamp-1">{job.company} • {job.location}</p>
         
         <div className="flex gap-2 mb-6 flex-wrap">
-          <Chip size="sm" variant="flat">{job.category}</Chip>
+          <Chip size="sm" variant="soft">{job.category}</Chip>
           {job.requirements?.slice(0, 2).map((req, i) => (
-            <Chip key={i} size="sm" variant="flat">{req}</Chip>
+            <Chip key={i} size="sm" variant="soft">{req}</Chip>
           ))}
           {job.requirements?.length > 2 && (
-            <Chip size="sm" variant="flat">+{job.requirements.length - 2}</Chip>
+            <Chip size="sm" variant="soft">+{job.requirements.length - 2}</Chip>
           )}
         </div>
         
@@ -43,11 +43,11 @@ export function JobCard({ job }: { job: Job }) {
             <p className="font-semibold text-primary">{job.salary}</p>
             <p className="text-xs text-muted">{new Date(job.createdAt).toLocaleDateString()}</p>
           </div>
-          <Button size="sm" color="primary" variant="shadow" as={Link} href={`/jobs/${job._id}`}>
+          <a href={`/jobs/${job._id}`} className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-md shadow-primary/30">
             View Details
-          </Button>
+          </a>
         </div>
-      </CardBody>
+      </CardContent>
     </Card>
   );
 }
@@ -55,7 +55,7 @@ export function JobCard({ job }: { job: Job }) {
 export function JobCardSkeleton() {
   return (
     <Card className="bg-surface border border-border h-full flex flex-col">
-      <CardBody className="p-6 flex flex-col flex-grow animate-pulse">
+      <CardContent className="p-6 flex flex-col flex-grow animate-pulse">
         <div className="flex justify-between items-start mb-4">
           <div className="w-12 h-12 bg-default-200 rounded-lg"></div>
           <div className="w-20 h-6 bg-default-200 rounded-full"></div>
@@ -73,7 +73,7 @@ export function JobCardSkeleton() {
           <div className="w-24 h-6 bg-default-200 rounded-lg"></div>
           <div className="w-24 h-8 bg-default-200 rounded-lg"></div>
         </div>
-      </CardBody>
+      </CardContent>
     </Card>
   );
 }

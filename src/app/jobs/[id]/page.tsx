@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useParams, useRouter } from "next/navigation";
-import { Button, Chip, Divider, Skeleton } from "@heroui/react";
+import { Chip, Skeleton } from "@heroui/react";
 import { JobCard, Job } from "@/components/jobs/JobCard";
 import toast from "react-hot-toast";
 
@@ -39,9 +39,9 @@ export default function JobDetailPage() {
       <div className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-3xl font-bold text-danger mb-4">Job Not Found</h1>
         <p className="text-muted mb-8">The job you're looking for doesn't exist or has been removed.</p>
-        <Button color="primary" onPress={() => router.push('/jobs')}>
+        <button onClick={() => router.push('/jobs')} className="bg-primary text-white px-6 py-2 rounded-xl font-medium hover:opacity-90">
           Back to Jobs
-        </Button>
+        </button>
       </div>
     );
   }
@@ -74,11 +74,11 @@ export default function JobDetailPage() {
               </div>
 
               <div className="flex flex-wrap gap-3 mb-8">
-                <Chip variant="flat" color="primary">{job.category}</Chip>
-                <Chip variant="flat" color="success">{job.type}</Chip>
-                <Chip variant="flat" color="secondary">{job.location}</Chip>
-                <Chip variant="flat">{job.salary}</Chip>
-                <Chip variant="flat" color="warning">
+                <Chip variant="soft" >{job.category}</Chip>
+                <Chip variant="soft" >{job.type}</Chip>
+                <Chip variant="soft" >{job.location}</Chip>
+                <Chip variant="soft">{job.salary}</Chip>
+                <Chip variant="soft" >
                   Posted {new Date(job.createdAt).toLocaleDateString()}
                 </Chip>
               </div>
@@ -109,12 +109,12 @@ export default function JobDetailPage() {
               Make sure your resume is up to date and tailored to this position.
             </p>
             <div className="flex flex-col gap-3">
-              <Button size="lg" color="primary" className="w-full font-bold text-lg" onPress={handleApply}>
+              <button onClick={handleApply} className="w-full bg-primary text-white h-12 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity">
                 Apply Now
-              </Button>
-              <Button size="lg" variant="bordered" color="primary" className="w-full" onPress={() => router.push('/ai-coach')}>
+              </button>
+              <button onClick={() => router.push('/ai-coach')} className="w-full border-2 border-primary text-primary h-12 rounded-xl font-medium hover:bg-primary/10 transition-colors">
                 Prep with AI Coach
-              </Button>
+              </button>
             </div>
           </div>
 

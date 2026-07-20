@@ -1,4 +1,4 @@
-import { Button, Link, Chip, Card, CardBody } from "@heroui/react";
+import { Link, Chip } from "@heroui/react";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background to-background" />
         
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <Chip color="primary" variant="dot" className="mb-6 mx-auto">
+          <Chip  variant="soft" className="mb-6 mx-auto">
             Powered by JobSpark AI
           </Chip>
           
@@ -25,12 +25,12 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" color="primary" as={Link} href="/jobs">
-              Browse Jobs
-            </Button>
-            <Button size="lg" variant="bordered" as={Link} href="/ai-coach">
-              Meet Your AI Coach
-            </Button>
+            <a href="/jobs" className="bg-primary text-white h-12 px-8 rounded-xl font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
+              Find Jobs
+            </a>
+            <a href="/jobs/add" className="bg-default-100 text-foreground h-12 px-8 rounded-xl font-medium flex items-center justify-center hover:bg-default-200 transition-colors">
+              Post a Job
+            </a>
           </div>
         </div>
       </section>
@@ -75,17 +75,17 @@ export default function Home() {
               { title: "Finance", jobs: "1,100 jobs", icon: "💰" },
               { title: "Customer Success", jobs: "2,300 jobs", icon: "🤝" }
             ].map((cat, i) => (
-              <Card key={i} isPressable as={Link} href={`/jobs?category=${cat.title.toLowerCase()}`} className="border border-border/50 bg-surface/50 hover:border-primary/50 transition-colors">
-                <CardBody className="p-6 text-center flex flex-col items-center gap-4">
+              <a key={i} href={`/jobs?category=${cat.title.toLowerCase()}`} className="block border border-border/50 bg-surface/50 hover:border-primary/50 transition-colors rounded-xl overflow-hidden">
+                <div className="p-6 text-center flex flex-col items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl">
                     {cat.icon}
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg">{cat.title}</h3>
-                    <p className="text-sm text-muted">{cat.jobs}</p>
+                    <p className="text-muted text-sm">{cat.jobs}</p>
                   </div>
-                </CardBody>
-              </Card>
+                </div>
+              </a>
             ))}
           </div>
         </div>
@@ -101,42 +101,42 @@ export default function Home() {
                 Discover the latest opportunities from top companies.
               </p>
             </div>
-            <Button as={Link} href="/jobs" color="primary" variant="flat" className="hidden sm:flex">
+            <a href="/jobs" className="hidden sm:flex bg-primary/10 text-primary px-6 py-2 rounded-xl font-medium items-center justify-center hover:bg-primary/20 transition-colors">
               View All Jobs
-            </Button>
+            </a>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Dummy Featured Jobs - We'll replace this with real JobCard components later */}
             {[1, 2, 3].map((job) => (
-              <Card key={job} className="bg-surface border border-border">
-                <CardBody className="p-6">
+              <div key={job} className="bg-surface border border-border rounded-xl overflow-hidden">
+                <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center font-bold text-xl">
                       C
                     </div>
-                    <Chip size="sm" color="success" variant="flat">Full Time</Chip>
+                    <Chip size="sm"  variant="soft">Full Time</Chip>
                   </div>
                   <h3 className="text-xl font-bold mb-2">Senior Frontend Developer</h3>
                   <p className="text-muted mb-4">Company Name • San Francisco, CA (Remote)</p>
                   <div className="flex gap-2 mb-6 flex-wrap">
-                    <Chip size="sm" variant="flat">React</Chip>
-                    <Chip size="sm" variant="flat">TypeScript</Chip>
-                    <Chip size="sm" variant="flat">Next.js</Chip>
+                    <Chip size="sm" variant="soft">React</Chip>
+                    <Chip size="sm" variant="soft">TypeScript</Chip>
+                    <Chip size="sm" variant="soft">Next.js</Chip>
                   </div>
                   <div className="flex justify-between items-center mt-auto">
                     <p className="font-semibold text-primary">$120k - $150k</p>
-                    <Button size="sm" color="primary" variant="shadow">Apply Now</Button>
+                    <a href="/jobs" className="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">Apply Now</a>
                   </div>
-                </CardBody>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
           
           <div className="mt-8 text-center sm:hidden">
-            <Button as={Link} href="/jobs" color="primary" variant="flat" className="w-full">
+            <a href="/jobs" className="block w-full bg-primary/10 text-primary h-12 rounded-xl font-medium flex items-center justify-center hover:bg-primary/20 transition-colors">
               View All Jobs
-            </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -195,7 +195,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <Chip color="secondary" variant="shadow" className="mb-6">
+              <Chip  variant="primary" className="mb-6">
                 ✨ Meet Your AI Career Coach
               </Chip>
               <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
@@ -217,23 +217,23 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button size="lg" color="primary" shadow as={Link} href="/ai-coach">
+              <a href="/ai-coach" className="inline-flex bg-primary text-white h-12 px-8 rounded-xl font-medium items-center justify-center shadow-lg shadow-primary/30 hover:opacity-90 transition-opacity">
                 Chat with AI Coach
-              </Button>
+              </a>
             </div>
             
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-2xl transform rotate-3 scale-105" />
-              <Card className="bg-surface border border-border shadow-2xl relative z-10">
-                <CardHeader className="border-b border-border p-4 bg-background/50">
+              <div className="bg-surface border border-border shadow-2xl relative z-10 rounded-xl overflow-hidden">
+                <div className="border-b border-border p-4 bg-background/50">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full bg-danger" />
                     <div className="w-3 h-3 rounded-full bg-warning" />
                     <div className="w-3 h-3 rounded-full bg-success" />
                     <p className="ml-2 font-mono text-xs text-muted">AI Career Coach</p>
                   </div>
-                </CardHeader>
-                <CardBody className="p-6 h-[400px] flex flex-col gap-4 overflow-hidden">
+                </div>
+                <div className="p-6 h-[400px] flex flex-col gap-4 overflow-hidden">
                   <div className="flex gap-4 w-[80%]">
                     <div className="w-8 h-8 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-sm">🤖</div>
                     <div className="bg-background rounded-2xl rounded-tl-none p-4 text-sm shadow-sm border border-border">
@@ -252,8 +252,8 @@ export default function Home() {
                       Absolutely! For a Senior React role, you should expect questions on advanced state management, performance optimization (like useMemo/useCallback), and architecture. Let's start with a mock question: How would you handle state in a large-scale React application?
                     </div>
                   </div>
-                </CardBody>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -269,12 +269,12 @@ export default function Home() {
             Join thousands of professionals finding their perfect roles with JobSpark AI.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" color="default" className="bg-white text-primary font-bold" as={Link} href="/register">
+            <a href="/register" className="bg-white text-primary h-12 px-8 rounded-xl font-bold flex items-center justify-center hover:bg-default-100 transition-colors">
               Create Free Account
-            </Button>
-            <Button size="lg" variant="bordered" className="border-white text-white hover:bg-white/10" as={Link} href="/jobs">
+            </a>
+            <a href="/jobs" className="border-2 border-white text-white h-12 px-8 rounded-xl font-medium flex items-center justify-center hover:bg-white/10 transition-colors">
               Browse Jobs
-            </Button>
+            </a>
           </div>
         </div>
       </section>

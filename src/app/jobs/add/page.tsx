@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import { Input, Button, Select, SelectItem, Textarea, Card, CardBody } from "@heroui/react";
 import toast from "react-hot-toast";
 
 export default function PostJobPage() {
@@ -20,6 +19,7 @@ export default function PostJobPage() {
     salary: "",
     requirements: "",
     description: "",
+    logoUrl: "",
   });
 
   const categories = [
@@ -81,128 +81,153 @@ export default function PostJobPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Post a New Job</h1>
-        <p className="text-muted">Fill out the details below to publish your open position.</p>
-      </div>
-
-      <Card className="bg-surface border border-border">
-        <CardBody className="p-6 md:p-8">
+    <div className="container mx-auto px-4 py-12">
+      <div className="w-full max-w-3xl mx-auto p-8 bg-surface border border-border rounded-2xl shadow-xl">
+        <h1 className="text-2xl font-bold mb-6">Post a New Job</h1>
+        
+        <div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                isRequired
-                label="Job Title"
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Job Title</label>
+              <input
+                required
+                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
                 name="title"
                 placeholder="e.g. Senior React Developer"
                 value={formData.title}
                 onChange={handleChange}
-                variant="bordered"
-              />
-              <Input
-                isRequired
-                label="Company Name"
-                name="company"
-                placeholder="e.g. Acme Corp"
-                value={formData.company}
-                onChange={handleChange}
-                variant="bordered"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Input
-                isRequired
-                label="Location"
-                name="location"
-                placeholder="e.g. Remote, NY"
-                value={formData.location}
-                onChange={handleChange}
-                variant="bordered"
-              />
-              <Select 
-                isRequired
-                label="Job Type" 
-                name="type"
-                variant="bordered"
-                selectedKeys={[formData.type]}
-                onChange={handleChange}
-              >
-                {jobTypes.map((t) => (
-                  <SelectItem key={t} value={t}>{t}</SelectItem>
-                ))}
-              </Select>
-              <Select 
-                isRequired
-                label="Category" 
-                name="category"
-                variant="bordered"
-                selectedKeys={[formData.category]}
-                onChange={handleChange}
-              >
-                {categories.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
-                ))}
-              </Select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">Company Name</label>
+                <input
+                  required
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  name="company"
+                  placeholder="e.g. Acme Corp"
+                  value={formData.company}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">Location</label>
+                <input
+                  required
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  name="location"
+                  placeholder="e.g. Remote, NY"
+                  value={formData.location}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
 
-            <Input
-              isRequired
-              label="Salary Range"
-              name="salary"
-              placeholder="e.g. $100k - $120k"
-              value={formData.salary}
-              onChange={handleChange}
-              variant="bordered"
-            />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">Salary Range</label>
+                <input
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  name="salary"
+                  placeholder="e.g. $100k - $120k"
+                  value={formData.salary}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">Job Type</label>
+                <select 
+                  required
+                  name="type"
+                  value={formData.type}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                >
+                  {jobTypes.map((t) => (
+                    <option key={t} value={t} className="bg-background text-foreground">{t}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">Category</label>
+                <select 
+                  required
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                >
+                  {categories.map((c) => (
+                    <option key={c} value={c} className="bg-background text-foreground">{c}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
-            <Textarea
-              isRequired
-              label="Requirements (One per line)"
-              name="requirements"
-              placeholder="- 5+ years React experience\n- Strong TypeScript skills\n- Experience with Next.js"
-              value={formData.requirements}
-              onChange={handleChange}
-              variant="bordered"
-              minRows={4}
-            />
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Logo URL</label>
+              <input
+                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                name="logoUrl"
+                placeholder="https://example.com/logo.png"
+                value={formData.logoUrl}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-sm font-medium">Requirements (One per line)</label>
+              <textarea
+                required
+                name="requirements"
+                placeholder="- 5+ years React experience\n- Strong TypeScript skills\n- Experience with Next.js"
+                value={formData.requirements}
+                onChange={handleChange}
+                rows={4}
+                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl p-3 outline-none transition-colors"
+              />
+            </div>
 
             <div className="relative">
-              <Textarea
-                isRequired
-                label="Job Description"
-                name="description"
-                placeholder="Describe the role in detail..."
-                value={formData.description}
-                onChange={handleChange}
-                variant="bordered"
-                minRows={8}
-              />
-              <Button 
-                className="absolute top-2 right-2 z-10" 
-                color="secondary" 
-                size="sm" 
-                variant="flat"
-                onPress={handleGenerateDescription}
-                isLoading={isGenerating}
-                startContent={!isGenerating && <span>✨</span>}
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-sm font-medium">Job Description</label>
+                <textarea
+                  required
+                  name="description"
+                  placeholder="Describe the role in detail..."
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows={8}
+                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl p-3 outline-none transition-colors"
+                />
+              </div>
+              <button 
+                type="button"
+                className="absolute top-8 right-2 z-10 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 hover:bg-primary/20 transition-colors"
+                onClick={handleGenerateDescription}
+                disabled={isGenerating}
               >
-                AI Write
-              </Button>
+                {!isGenerating && <span>✨</span>}
+                {isGenerating ? "Writing..." : "AI Write"}
+              </button>
             </div>
 
             <div className="flex justify-end gap-4 mt-4">
-              <Button variant="flat" onPress={() => router.back()}>
+              <button type="button" className="px-6 py-2 bg-default-100 rounded-xl font-medium hover:bg-default-200 transition-colors" onClick={() => router.back()}>
                 Cancel
-              </Button>
-              <Button color="primary" type="submit" isLoading={isLoading} size="lg">
-                Post Job
-              </Button>
+              </button>
+              <button 
+                type="submit" 
+                disabled={isLoading} 
+                className="h-12 bg-primary text-white rounded-xl px-6 font-medium hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {isLoading ? "Posting..." : "Post Job"}
+              </button>
             </div>
           </form>
-        </CardBody>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

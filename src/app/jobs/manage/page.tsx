@@ -2,22 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { 
-  Table, 
-  TableHeader, 
-  TableBody, 
-  TableColumn, 
-  TableRow, 
-  TableCell,
-  Chip,
-  Button,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Link,
-  Skeleton
-} from "@heroui/react";
+import { Skeleton } from "@heroui/react";
 import toast from "react-hot-toast";
 
 export default function ManageJobsPage() {
@@ -66,96 +51,85 @@ export default function ManageJobsPage() {
           <h1 className="text-3xl font-bold">Manage Jobs</h1>
           <p className="text-muted mt-2">View, edit, and manage your job listings.</p>
         </div>
-        <Button color="primary" as={Link} href="/jobs/add">
+        <a href="/jobs/add" className="bg-primary text-white h-10 px-4 rounded-lg font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
           Post New Job
-        </Button>
+        </a>
       </div>
 
       <div className="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
-        <Table aria-label="Manage your posted jobs" removeWrapper>
-          <TableHeader>
-            <TableColumn>JOB TITLE</TableColumn>
-            <TableColumn>STATUS</TableColumn>
-            <TableColumn>VIEWS</TableColumn>
-            <TableColumn>POSTED DATE</TableColumn>
-            <TableColumn>ACTIONS</TableColumn>
-          </TableHeader>
-          <TableBody 
-            emptyContent={isLoading ? "Loading jobs..." : "You haven't posted any jobs yet."}
-            isLoading={isLoading}
-            loadingContent={
-              <div className="w-full flex flex-col gap-4 mt-4">
-                {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full rounded-lg" />)}
-              </div>
-            }
-          >
-            {jobs?.map((job: any) => (
-              <TableRow key={job._id}>
-                <TableCell>
-                  <div>
-                    <p className="font-bold">{job.title}</p>
-                    <p className="text-xs text-muted">{job.location} • {job.type}</p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Chip 
-                    color={job.status === 'open' ? 'success' : 'default'} 
-                    size="sm" 
-                    variant="dot"
-                  >
-                    {job.status === 'open' ? 'Active' : 'Closed'}
-                  </Chip>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <span>👀</span>
-                    <span className="font-semibold">{job.viewCount || 0}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{new Date(job.createdAt).toLocaleDateString()}</TableCell>
-                <TableCell>
-                  <div className="relative flex justify-end items-center gap-2">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button isIconOnly size="sm" variant="light">
-                          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="12" cy="5" r="1"></circle>
-                            <circle cx="12" cy="19" r="1"></circle>
-                          </svg>
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Job actions">
-                        <DropdownItem as={Link} href={`/jobs/${job._id}`}>
-                          View Listing
-                        </DropdownItem>
-                        <DropdownItem 
-                          onPress={() => statusMutation.mutate({ 
+        {isLoading ? (
+          <div className="p-8 text-center text-muted">Loading jobs...</div>
+        ) : !jobs || jobs.length === 0 ? (
+          <div className="p-8 text-center text-muted">You haven't posted any jobs yet.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-border bg-default-50">
+                  <th className="p-4 font-semibold text-sm">JOB TITLE</th>
+                  <th className="p-4 font-semibold text-sm">STATUS</th>
+                  <th className="p-4 font-semibold text-sm">VIEWS</th>
+                  <th className="p-4 font-semibold text-sm">POSTED DATE</th>
+                  <th className="p-4 font-semibold text-sm text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.map((job: any) => (
+                  <tr key={job._id} className="border-b border-border last:border-0 hover:bg-default-50/50 transition-colors">
+                    <td className="p-4">
+                      <div>
+                        <p className="font-bold">{job.title}</p>
+                        <p className="text-xs text-muted">{job.location} • {job.type}</p>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        job.status === 'open' ? 'bg-success/20 text-success-600' : 'bg-default-200 text-default-600'
+                      }`}>
+                        {job.status === 'open' ? 'Active' : 'Closed'}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <span>👀</span>
+                        <span className="font-semibold">{job.viewCount || 0}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 text-sm">
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-4">
+                      <div className="flex justify-end gap-2">
+                        <a href={`/jobs/${job._id}`} className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors text-sm font-medium">
+                          View
+                        </a>
+                        <button 
+                          onClick={() => statusMutation.mutate({ 
                             id: job._id, 
                             status: job.status === 'open' ? 'closed' : 'open' 
                           })}
+                          className="p-2 text-foreground hover:bg-default-100 rounded-lg transition-colors text-sm font-medium"
                         >
-                          Mark as {job.status === 'open' ? 'Closed' : 'Active'}
-                        </DropdownItem>
-                        <DropdownItem 
-                          className="text-danger" 
-                          color="danger"
-                          onPress={() => {
+                          {job.status === 'open' ? 'Close' : 'Activate'}
+                        </button>
+                        <button 
+                          onClick={() => {
                             if (window.confirm("Are you sure you want to delete this job?")) {
                               deleteMutation.mutate(job._id);
                             }
                           }}
+                          className="p-2 text-danger hover:bg-danger/10 rounded-lg transition-colors text-sm font-medium"
                         >
                           Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { Card, CardBody, Button, Input, ScrollShadow, Divider, Skeleton } from "@heroui/react";
+import { ScrollShadow, Skeleton } from "@heroui/react";
 import toast from "react-hot-toast";
 
 interface Message {
@@ -132,68 +132,39 @@ export default function AICoachPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-[calc(100vh-140px)] max-h-[900px] flex gap-6 max-w-6xl">
-      
-      {/* Sidebar - Sessions */}
-      <Card className="w-1/4 hidden lg:flex flex-col h-full bg-surface border border-border">
-        <div className="p-4 border-b border-border flex justify-between items-center">
+    <div className="container mx-auto max-w-4xl px-4 py-8 h-[calc(100vh-64px)] flex flex-col">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          <span className="text-primary text-4xl">🤖</span> AI Career Coach
+        </h1>
+        <p className="text-muted-foreground mt-2">Get personalized career advice, resume reviews, and interview preparation.</p>
+      </div>
+
+      <div className="flex-1 bg-white border border-gray-200 rounded-2xl shadow-xl flex flex-col min-h-0 overflow-hidden">
+        <div className="p-4 border-b border-gray-100 flex justify-between items-center">
           <h2 className="font-bold">Chat History</h2>
-          <Button size="sm" color="primary" variant="flat" onPress={startNewChat}>
+          <button 
+            onClick={startNewChat}
+            className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:opacity-90"
+          >
             New Chat
-          </Button>
+          </button>
         </div>
-        <ScrollShadow className="flex-1 p-2">
-          {isLoadingSessions ? (
-            <div className="space-y-2 p-2">
-              <Skeleton className="h-10 w-full rounded-md" />
-              <Skeleton className="h-10 w-full rounded-md" />
-            </div>
-          ) : sessions?.length === 0 ? (
-            <p className="text-center text-muted text-sm mt-4">No previous chats</p>
-          ) : (
-            <div className="flex flex-col gap-1">
-              {sessions?.map((s: Session) => (
-                <Button 
-                  key={s._id}
-                  variant={currentSessionId === s._id ? "flat" : "light"}
-                  color={currentSessionId === s._id ? "primary" : "default"}
-                  className="justify-start truncate w-full"
-                  onPress={() => loadSession(s._id)}
-                >
-                  <span className="truncate">{s.title}</span>
-                </Button>
-              ))}
-            </div>
-          )}
-        </ScrollShadow>
-      </Card>
-
-      {/* Main Chat Area */}
-      <Card className="flex-1 flex flex-col h-full bg-surface border border-border">
-        <div className="p-4 border-b border-border flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-xl">
-            🤖
-          </div>
-          <div>
-            <h2 className="font-bold">AI Career Coach</h2>
-            <p className="text-xs text-success">Online</p>
-          </div>
-        </div>
-
-        <ScrollShadow className="flex-1 p-4 flex flex-col gap-6" ref={scrollRef}>
+        
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6" ref={scrollRef}>
           {messages.map((msg, index) => (
             <div 
               key={index} 
               className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}
             >
-              <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm ${msg.role === 'user' ? 'bg-secondary/20' : 'bg-primary/20'}`}>
+              <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm ${msg.role === 'user' ? 'bg-secondary' : 'bg-primary/20'}`}>
                 {msg.role === 'user' ? '👤' : '🤖'}
               </div>
               <div 
                 className={`p-4 rounded-2xl whitespace-pre-wrap ${
                   msg.role === 'user' 
-                    ? 'bg-primary text-primary-foreground rounded-tr-none shadow-md' 
-                    : 'bg-background border border-border rounded-tl-none shadow-sm text-foreground'
+                    ? 'bg-primary text-white rounded-tr-none' 
+                    : 'bg-gray-100 rounded-tl-none text-foreground'
                 }`}
               >
                 {msg.content || <span className="animate-pulse">...</span>}
@@ -203,47 +174,36 @@ export default function AICoachPage() {
           {isStreaming && messages[messages.length - 1].role === 'user' && (
             <div className="flex gap-4 max-w-[85%] self-start">
               <div className="w-8 h-8 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-sm">🤖</div>
-              <div className="p-4 rounded-2xl bg-background border border-border rounded-tl-none shadow-sm">
+              <div className="p-4 rounded-2xl bg-gray-100 rounded-tl-none text-foreground">
                 <span className="animate-pulse">Thinking...</span>
               </div>
             </div>
           )}
-        </ScrollShadow>
-
-        <Divider />
+        </div>
         
-        <div className="p-4 bg-background/50">
+        <div className="p-4 bg-gray-50 border-t border-gray-100">
           <form onSubmit={sendMessage} className="flex gap-2 relative">
-            <Input
-              fullWidth
-              placeholder="Ask for resume advice, interview prep, or career guidance..."
+            <input
+              type="text"
+              className="flex-1 bg-white border border-gray-200 rounded-xl px-4 h-14 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              placeholder="Ask for career advice, resume tips, or interview prep..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              variant="bordered"
-              size="lg"
               disabled={isStreaming}
-              className="pr-12"
             />
-            <Button 
-              isIconOnly 
-              color="primary" 
+            <button 
               type="submit" 
-              isLoading={isStreaming}
-              size="lg"
-              className="absolute right-1 top-1 z-10"
-              isDisabled={!input.trim()}
+              className="px-6 h-14 bg-primary text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50"
+              disabled={isStreaming || !input.trim()}
             >
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </Button>
+              Send
+            </button>
           </form>
-          <p className="text-center text-xs text-muted mt-2">
+          <p className="text-center text-xs text-gray-400 mt-2">
             AI can make mistakes. Consider verifying important information.
           </p>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

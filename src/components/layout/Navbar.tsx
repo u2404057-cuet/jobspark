@@ -1,21 +1,6 @@
 "use client";
 
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-  Button,
-  Link,
-  DropdownItem,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  Avatar,
-} from "@heroui/react";
+import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
@@ -48,90 +33,90 @@ export function TopNavbar() {
       ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered className="bg-background/70 backdrop-blur-md">
-      <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
-        <NavbarBrand>
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/70 backdrop-blur-md">
+      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button
+            className="sm:hidden text-foreground"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          
           <Link href="/" className="font-bold text-inherit flex items-center gap-2">
             <span className="text-primary text-2xl">⚡</span>
-            <p className="font-bold text-xl tracking-tight">JobSpark <span className="text-primary">AI</span></p>
+            <p className="font-bold text-xl tracking-tight hidden sm:block">JobSpark <span className="text-primary">AI</span></p>
           </Link>
-        </NavbarBrand>
-      </NavbarContent>
+        </div>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {menuItems.map((item) => (
-          <NavbarItem key={item.href} isActive={pathname === item.href}>
-            <Link color={pathname === item.href ? "primary" : "foreground"} href={item.href}>
-              {item.label}
-            </Link>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
-
-      <NavbarContent justify="end">
-        {isPending ? (
-          <div className="w-8 h-8 rounded-full bg-surface animate-pulse" />
-        ) : session ? (
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="primary"
-                name={session.user.name}
-                size="sm"
-                src={session.user.image || undefined}
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{session.user.email}</p>
-              </DropdownItem>
-              <DropdownItem key="dashboard" href="/dashboard">
-                Dashboard
-              </DropdownItem>
-              <DropdownItem key="post_job" href="/jobs/add" color="primary">
-                Post a Job
-              </DropdownItem>
-              <DropdownItem key="logout" color="danger" onPress={handleSignOut}>
-                Log Out
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        ) : (
-          <>
-            <NavbarItem className="hidden lg:flex">
-              <Link href="/login" color="foreground">Login</Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button as={Link} color="primary" href="/register" variant="flat">
-                Sign Up
-              </Button>
-            </NavbarItem>
-          </>
-        )}
-      </NavbarContent>
-
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item.label}-${index}`}>
-            <Link
-              color={pathname === item.href ? "primary" : "foreground"}
-              className="w-full"
+        <div className="hidden sm:flex items-center gap-6">
+          {menuItems.map((item) => (
+            <Link 
+              key={item.href}
               href={item.href}
-              size="lg"
+              className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-foreground"}`}
             >
               {item.label}
             </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
-    </Navbar>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          {isPending ? (
+            <div className="w-8 h-8 rounded-full bg-surface animate-pulse" />
+          ) : session ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium hidden sm:inline-block">{session.user.name}</span>
+              <button 
+                onClick={handleSignOut}
+                className="text-sm text-danger hover:text-danger/80 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link href="/login" className="text-sm font-medium hidden lg:block mr-2 hover:text-primary transition-colors">
+                Login
+              </Link>
+              <Link href="/register" className="bg-primary/10 text-primary hover:bg-primary/20 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="sm:hidden border-t border-border bg-background p-4 absolute w-full left-0 top-16 shadow-lg">
+          <ul className="flex flex-col gap-4">
+            {menuItems.map((item, index) => (
+              <li key={`${item.label}-${index}`}>
+                <Link
+                  className={`block w-full text-lg ${pathname === item.href ? "text-primary font-semibold" : "text-foreground"}`}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </header>
   );
 }

@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useSession } from "@/lib/auth-client";
-import { Card, CardBody, Button, Link, Skeleton } from "@heroui/react";
+import { Card, CardContent, Link, Skeleton } from "@heroui/react";
 import { JobCard, Job } from "@/components/jobs/JobCard";
 import {
   LineChart,
@@ -50,9 +50,9 @@ export default function DashboardPage() {
           <p className="text-muted mt-2">Here's what's happening with your jobs today.</p>
         </div>
         <div className="flex gap-4">
-          <Button color="primary" as={Link} href="/jobs/add">
+          <a href="/jobs/add" className="bg-primary text-white px-6 py-2 rounded-xl font-medium hover:opacity-90 transition-opacity">
             Post New Job
-          </Button>
+          </a>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function DashboardPage() {
           { label: "Total Views", value: stats?.totalViews || 0, icon: "👀", color: "text-secondary" },
         ].map((stat, index) => (
           <Card key={index} className="bg-surface border border-border">
-            <CardBody className="p-6 flex flex-row items-center justify-between">
+            <CardContent className="p-6 flex flex-row items-center justify-between">
               <div>
                 <p className="text-muted text-sm font-medium mb-1">{stat.label}</p>
                 {isLoading ? (
@@ -76,7 +76,7 @@ export default function DashboardPage() {
               <div className={`text-4xl ${stat.color} opacity-80`}>
                 {stat.icon}
               </div>
-            </CardBody>
+            </CardContent>
           </Card>
         ))}
       </div>
@@ -85,7 +85,7 @@ export default function DashboardPage() {
         {/* Chart */}
         <div className="lg:col-span-2">
           <Card className="bg-surface border border-border h-full">
-            <CardBody className="p-6">
+            <CardContent className="p-6">
               <h3 className="text-xl font-bold mb-6">Profile Views (This Week)</h3>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -119,17 +119,17 @@ export default function DashboardPage() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </CardBody>
+            </CardContent>
           </Card>
         </div>
 
         {/* Recent Activity */}
         <div className="space-y-6">
           <Card className="bg-surface border border-border h-full">
-            <CardBody className="p-6">
+            <CardContent className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold">Recent Jobs</h3>
-                <Link href="/jobs/manage" size="sm">View All</Link>
+                <Link className="text-sm">View All</Link>
               </div>
               
               <div className="flex flex-col gap-4">
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                   ))
                 )}
               </div>
-            </CardBody>
+            </CardContent>
           </Card>
         </div>
       </div>
