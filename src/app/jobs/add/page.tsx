@@ -81,17 +81,17 @@ export default function PostJobPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="w-full max-w-3xl mx-auto p-8 bg-surface border border-border rounded-2xl shadow-xl">
-        <h1 className="text-2xl font-bold mb-6">Post a New Job</h1>
+    <div className="container mx-auto px-4 py-12 max-w-3xl">
+      <div className="w-full p-8 bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-2xl shadow-2xl space-y-6">
+        <h1 className="text-2xl font-bold text-white tracking-tight">Post a New Job</h1>
         
         <div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1 w-full">
-              <label className="text-sm font-medium">Job Title</label>
+            <div className="flex flex-col gap-1.5 w-full">
+              <label className="text-sm font-semibold text-slate-300">Job Title</label>
               <input
                 required
-                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 name="title"
                 placeholder="e.g. Senior React Developer"
                 value={formData.title}
@@ -100,22 +100,22 @@ export default function PostJobPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-sm font-medium">Company Name</label>
+              <div className="flex flex-col gap-1.5 w-full">
+                <label className="text-sm font-semibold text-slate-300">Company Name</label>
                 <input
                   required
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                   name="company"
                   placeholder="e.g. Acme Corp"
                   value={formData.company}
                   onChange={handleChange}
                 />
               </div>
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-sm font-medium">Location</label>
+              <div className="flex flex-col gap-1.5 w-full">
+                <label className="text-sm font-semibold text-slate-300">Location</label>
                 <input
                   required
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                   name="location"
                   placeholder="e.g. Remote, NY"
                   value={formData.location}
@@ -125,50 +125,50 @@ export default function PostJobPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-sm font-medium">Salary Range</label>
+              <div className="flex flex-col gap-1.5 w-full">
+                <label className="text-sm font-semibold text-slate-300">Salary Range</label>
                 <input
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                   name="salary"
                   placeholder="e.g. $100k - $120k"
                   value={formData.salary}
                   onChange={handleChange}
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Job Type</label>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-semibold text-slate-300">Job Type</label>
                 <select 
                   required
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 >
                   {jobTypes.map((t) => (
-                    <option key={t} value={t} className="bg-background text-foreground">{t}</option>
+                    <option key={t} value={t} className="bg-slate-950 text-white">{t}</option>
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Category</label>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-semibold text-slate-300">Category</label>
                 <select 
                   required
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 >
                   {categories.map((c) => (
-                    <option key={c} value={c} className="bg-background text-foreground">{c}</option>
+                    <option key={c} value={c} className="bg-slate-950 text-white">{c}</option>
                   ))}
                 </select>
               </div>
             </div>
 
-            <div className="flex flex-col gap-1 w-full">
-              <label className="text-sm font-medium">Logo URL</label>
+            <div className="flex flex-col gap-1.5 w-full">
+              <label className="text-sm font-semibold text-slate-300">Logo URL</label>
               <input
-                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+                className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 name="logoUrl"
                 placeholder="https://example.com/logo.png"
                 value={formData.logoUrl}
@@ -176,22 +176,22 @@ export default function PostJobPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-1 w-full">
-              <label className="text-sm font-medium">Requirements (One per line)</label>
+            <div className="flex flex-col gap-1.5 w-full">
+              <label className="text-sm font-semibold text-slate-300">Requirements (One per line)</label>
               <textarea
                 required
                 name="requirements"
-                placeholder="- 5+ years React experience\n- Strong TypeScript skills\n- Experience with Next.js"
+                placeholder="- 5+ years React experience&#10;- Strong TypeScript skills&#10;- Experience with Next.js"
                 value={formData.requirements}
                 onChange={handleChange}
                 rows={4}
-                className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl p-3 outline-none transition-colors"
+                className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl p-4 outline-none transition-all duration-200 font-medium resize-y"
               />
             </div>
 
             <div className="relative">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-sm font-medium">Job Description</label>
+              <div className="flex flex-col gap-1.5 w-full">
+                <label className="text-sm font-semibold text-slate-300">Job Description</label>
                 <textarea
                   required
                   name="description"
@@ -199,12 +199,12 @@ export default function PostJobPage() {
                   value={formData.description}
                   onChange={handleChange}
                   rows={8}
-                  className="w-full bg-transparent border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl p-3 outline-none transition-colors"
+                  className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl p-4 outline-none transition-all duration-200 font-medium resize-y"
                 />
               </div>
               <button 
                 type="button"
-                className="absolute top-8 right-2 z-10 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 hover:bg-primary/20 transition-colors"
+                className="absolute top-9 right-3 z-10 bg-primary/20 text-white hover:bg-primary/30 px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-primary/30 shadow-md shadow-primary/10"
                 onClick={handleGenerateDescription}
                 disabled={isGenerating}
               >
@@ -214,13 +214,17 @@ export default function PostJobPage() {
             </div>
 
             <div className="flex justify-end gap-4 mt-4">
-              <button type="button" className="px-6 py-2 bg-default-100 rounded-xl font-medium hover:bg-default-200 transition-colors" onClick={() => router.back()}>
+              <button 
+                type="button" 
+                className="px-6 h-12 bg-slate-800 hover:bg-slate-700 hover:text-white rounded-xl font-bold transition-colors cursor-pointer text-slate-300" 
+                onClick={() => router.back()}
+              >
                 Cancel
               </button>
               <button 
                 type="submit" 
                 disabled={isLoading} 
-                className="h-12 bg-primary text-white rounded-xl px-6 font-medium hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="h-12 bg-primary text-white rounded-xl px-6 font-bold hover:opacity-90 active:scale-[0.99] transition-all shadow-md shadow-primary/20 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isLoading ? "Posting..." : "Post Job"}
               </button>

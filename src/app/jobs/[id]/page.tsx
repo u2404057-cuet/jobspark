@@ -103,16 +103,22 @@ export default function JobDetailPage() {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <div className="bg-surface border border-border rounded-xl p-6 sticky top-24">
-            <h3 className="text-xl font-bold mb-4">Ready to Apply?</h3>
-            <p className="text-muted mb-6">
+          <div className="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-6 lg:sticky lg:top-24 shadow-2xl">
+            <h3 className="text-xl font-bold text-white mb-3">Ready to Apply?</h3>
+            <p className="text-slate-400 mb-6 text-sm">
               Make sure your resume is up to date and tailored to this position.
             </p>
             <div className="flex flex-col gap-3">
-              <button onClick={handleApply} className="w-full bg-primary text-white h-12 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity">
+              <button 
+                onClick={handleApply} 
+                className="w-full bg-primary text-white h-12 rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer shadow-md shadow-primary/10"
+              >
                 Apply Now
               </button>
-              <button onClick={() => router.push('/ai-coach')} className="w-full border-2 border-primary text-primary h-12 rounded-xl font-medium hover:bg-primary/10 transition-colors">
+              <button 
+                onClick={() => router.push('/ai-coach')} 
+                className="w-full border border-slate-700 bg-slate-800/40 text-slate-200 hover:bg-slate-800 hover:text-white h-12 rounded-xl font-semibold transition-colors cursor-pointer text-base"
+              >
                 Prep with AI Coach
               </button>
             </div>

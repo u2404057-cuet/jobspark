@@ -14,6 +14,7 @@ export function TopNavbar() {
   const handleSignOut = async () => {
     await signOut();
     router.push("/login");
+    router.refresh();
   };
 
   const menuItems = session
@@ -75,28 +76,34 @@ export function TopNavbar() {
 
         <div className="flex items-center gap-2">
           {isPending ? (
-            <div className="w-8 h-8 rounded-full bg-surface animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-slate-800 animate-pulse border border-slate-700" />
           ) : session ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium hidden sm:inline-block">{session.user.name}</span>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm border border-primary/30 shadow-inner">
+                {session.user.name?.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-sm font-semibold text-slate-200 hidden sm:inline-block">
+                {session.user.name}
+              </span>
               <button 
                 onClick={handleSignOut}
-                className="text-sm text-danger hover:text-danger/80 transition-colors"
+                className="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border border-red-500/20 cursor-pointer"
               >
                 Logout
               </button>
             </div>
           ) : (
             <>
-              <Link href="/login" className="text-sm font-medium hidden lg:block mr-2 hover:text-primary transition-colors">
+              <Link href="/login" className="text-sm font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg hover:bg-slate-800/30 transition-all">
                 Login
               </Link>
-              <Link href="/register" className="bg-primary/10 text-primary hover:bg-primary/20 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/register" className="bg-primary text-white hover:bg-primary/95 px-4 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md shadow-primary/10">
                 Sign Up
               </Link>
             </>
           )}
         </div>
+
       </nav>
 
       {/* Mobile Menu */}
