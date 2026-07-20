@@ -54,17 +54,17 @@ export default function BrowseJobsPage() {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-surface border border-border rounded-xl p-4 mb-8 shadow-sm">
-        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 mb-8">
+      <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 mb-8 shadow-2xl">
+        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <input
               type="text"
               placeholder="Search by job title, company, or keywords..."
-              className="w-full bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl pl-12 pr-4 h-12 outline-none transition-colors"
+              className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl pl-12 pr-4 h-12 outline-none transition-all duration-200 font-medium"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-default-400">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -75,26 +75,29 @@ export default function BrowseJobsPage() {
           <select 
             value={category}
             onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-            className="md:w-48 bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+            className="md:w-48 bg-slate-950/60 text-slate-200 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium cursor-pointer"
           >
-            <option value="" className="bg-background text-foreground">All Categories</option>
+            <option value="" className="bg-slate-950 text-white font-medium">All Categories</option>
             {categories.map((c) => (
-              <option key={c} value={c} className="bg-background text-foreground">{c}</option>
+              <option key={c} value={c} className="bg-slate-950 text-white font-medium">{c}</option>
             ))}
           </select>
           
           <select 
             value={type}
             onChange={(e) => { setType(e.target.value); setPage(1); }}
-            className="md:w-48 bg-white border-2 border-default-200 hover:border-default-400 focus:border-primary rounded-xl px-3 h-12 outline-none transition-colors"
+            className="md:w-48 bg-slate-950/60 text-slate-200 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium cursor-pointer"
           >
-            <option value="" className="bg-background text-foreground">All Types</option>
+            <option value="" className="bg-slate-950 text-white font-medium">All Types</option>
             {jobTypes.map((t) => (
-              <option key={t} value={t} className="bg-background text-foreground">{t}</option>
+              <option key={t} value={t} className="bg-slate-950 text-white font-medium">{t}</option>
             ))}
           </select>
           
-          <button type="submit" className="md:w-32 bg-primary text-white rounded-xl font-medium h-12 hover:opacity-90">
+          <button 
+            type="submit" 
+            className="md:w-32 bg-primary text-white rounded-xl font-bold h-12 hover:opacity-90 active:scale-[0.99] transition-all shadow-md shadow-primary/20 cursor-pointer"
+          >
             Search
           </button>
         </form>
