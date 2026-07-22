@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "@heroui/react";
-import { signIn } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -42,9 +42,37 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = () => {
-    setEmail("demo@jobspark.ai");
-    setPassword("demo1234");
+  const handleDemoLogin = async () => {
+    setIsLoading(true);
+    const demoEmail = "demo@jobspark.ai";
+    const demoPassword = "demo1234";
+    
+    try {
+      // First, try to sign in
+      await signIn.email({
+        email: demoEmail,
+        password: demoPassword,
+        callbackURL: `${window.location.origin}/dashboard`
+      });
+      toast.success("Logged in as Demo User!");
+      router.push("/dashboard");
+    } catch (error: any) {
+      // If sign in fails, the user might not exist yet. Try to register.
+      try {
+        await signUp.email({
+          email: demoEmail,
+          password: demoPassword,
+          name: "Demo User",
+          callbackURL: `${window.location.origin}/dashboard`
+        });
+        toast.success("Demo account created and logged in!");
+        router.push("/dashboard");
+      } catch (signUpError: any) {
+        toast.error(signUpError?.message || "Failed to log in as Demo User.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,6 +92,7 @@ export default function LoginPage() {
               <label className="text-sm font-semibold text-slate-300">Email Address</label>
               <input
                 required
+                suppressHydrationWarning
                 className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 placeholder="Enter your email"
                 type="email"

@@ -73,6 +73,7 @@ export default function RegisterPage() {
               <label className="text-sm font-semibold text-slate-300">Email Address</label>
               <input
                 required
+                suppressHydrationWarning
                 className="w-full bg-slate-950/60 text-white placeholder:text-slate-400/70 border border-slate-800 hover:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 h-12 outline-none transition-all duration-200 font-medium"
                 placeholder="Enter your email"
                 type="email"

@@ -21,7 +21,7 @@ export default function DashboardPage() {
   const { data: stats, isLoading: isStatsLoading } = useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: async () => {
-      const response = await api.get('/api/dashboard/stats');
+      const response = await api.get('/dashboard/stats');
       return response.data;
     },
     enabled: !!session,

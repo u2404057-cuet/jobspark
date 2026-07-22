@@ -32,7 +32,7 @@ export default function BrowseJobsPage() {
       if (category) params.append('category', category);
       if (type) params.append('type', type);
 
-      const response = await api.get(`/api/jobs?${params.toString()}`);
+      const response = await api.get(`/jobs?${params.toString()}`);
       return response.data;
     },
   });

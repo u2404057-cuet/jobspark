@@ -45,7 +45,7 @@ export default function PostJobPage() {
     
     try {
       const requirementsList = formData.requirements.split('\n').filter(r => r.trim());
-      const response = await api.post('/api/ai/generate-description', {
+      const response = await api.post('/ai/generate-description', {
         title: formData.title,
         category: formData.category,
         requirements: requirementsList
@@ -70,7 +70,7 @@ export default function PostJobPage() {
         requirements: formData.requirements.split('\n').filter(r => r.trim())
       };
       
-      const response = await api.post('/api/jobs', payload);
+      const response = await api.post('/jobs', payload);
       toast.success("Job posted successfully!");
       router.push(`/jobs/${response.data._id}`);
     } catch (error) {

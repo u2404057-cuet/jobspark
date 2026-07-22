@@ -31,7 +31,7 @@ export default function AICoachPage() {
   const { data: sessions, isLoading: isLoadingSessions } = useQuery({
     queryKey: ['ai-sessions'],
     queryFn: async () => {
-      const res = await api.get('/api/ai/sessions');
+      const res = await api.get('/ai/sessions');
       return res.data;
     }
   });
@@ -45,7 +45,7 @@ export default function AICoachPage() {
 
   const loadSession = async (id: string) => {
     try {
-      const res = await api.get(`/api/ai/sessions/${id}`);
+      const res = await api.get(`/ai/sessions/${id}`);
       setMessages(res.data.messages);
       setCurrentSessionId(id);
     } catch (error) {
@@ -72,7 +72,7 @@ export default function AICoachPage() {
     setIsStreaming(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/ai/chat`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/ai/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

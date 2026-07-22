@@ -13,14 +13,14 @@ export default function ManageJobsPage() {
   const { data: jobs, isLoading, error } = useQuery({
     queryKey: ['my-jobs'],
     queryFn: async () => {
-      const response = await api.get('/api/jobs/my-jobs');
+      const response = await api.get('/jobs/my-jobs');
       return response.data;
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await api.delete(`/api/jobs/${id}`);
+      await api.delete(`/jobs/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-jobs'] });
@@ -34,7 +34,7 @@ export default function ManageJobsPage() {
 
   const statusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: string, status: string }) => {
-      await api.patch(`/api/jobs/${id}/status`, { status });
+      await api.patch(`/jobs/${id}/status`, { status });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-jobs'] });
