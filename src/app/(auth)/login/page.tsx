@@ -16,18 +16,19 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     
-    try {
-      await signIn.email({
-        email,
-        password,
-        callbackURL: `${window.location.origin}/dashboard`
-      });
+    const { data, error } = await signIn.email({
+      email,
+      password,
+      callbackURL: `${window.location.origin}/dashboard`
+    });
+
+    if (error) {
+      toast.error(error.message || "Failed to login. Please check your credentials.");
+      setIsLoading(false);
+    } else {
       toast.success("Logged in successfully!");
       router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error?.message || "Failed to login. Please check your credentials.");
-    } finally {
-      setIsLoading(false);
+      // Note: we don't set isLoading(false) here because we are redirecting
     }
   };
 
@@ -47,30 +48,32 @@ export default function LoginPage() {
     const demoEmail = "demo@jobspark.ai";
     const demoPassword = "demo1234";
     
-    try {
-      // First, try to sign in
-      await signIn.email({
-        email: demoEmail,
-        password: demoPassword,
-        callbackURL: `${window.location.origin}/dashboard`
-      });
+    // First, try to sign in
+    const { data: signInData, error: signInError } = await signIn.email({
+      email: demoEmail,
+      password: demoPassword,
+      callbackURL: `${window.location.origin}/dashboard`
+    });
+
+    if (!signInError) {
       toast.success("Logged in as Demo User!");
       router.push("/dashboard");
-    } catch (error: any) {
-      // If sign in fails, the user might not exist yet. Try to register.
-      try {
-        await signUp.email({
-          email: demoEmail,
-          password: demoPassword,
-          name: "Demo User",
-          callbackURL: `${window.location.origin}/dashboard`
-        });
-        toast.success("Demo account created and logged in!");
-        router.push("/dashboard");
-      } catch (signUpError: any) {
-        toast.error(signUpError?.message || "Failed to log in as Demo User.");
-      }
-    } finally {
+      return; // router redirecting
+    }
+
+    // If sign in fails, the user might not exist yet. Try to register.
+    const { data: signUpData, error: signUpError } = await signUp.email({
+      email: demoEmail,
+      password: demoPassword,
+      name: "Demo User",
+      callbackURL: `${window.location.origin}/dashboard`
+    });
+
+    if (!signUpError) {
+      toast.success("Demo account created and logged in!");
+      router.push("/dashboard");
+    } else {
+      toast.error(signUpError.message || "Failed to log in as Demo User.");
       setIsLoading(false);
     }
   };

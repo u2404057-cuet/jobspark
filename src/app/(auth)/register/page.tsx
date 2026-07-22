@@ -17,19 +17,20 @@ export default function RegisterPage() {
     e.preventDefault();
     setIsLoading(true);
     
-    try {
-      await signUp.email({
-        email,
-        password,
-        name,
-        callbackURL: `${window.location.origin}/dashboard`
-      });
+    const { data, error } = await signUp.email({
+      email,
+      password,
+      name,
+      callbackURL: `${window.location.origin}/dashboard`
+    });
+
+    if (error) {
+      toast.error(error.message || "Failed to create account.");
+      setIsLoading(false);
+    } else {
       toast.success("Account created successfully!");
       router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error?.message || "Failed to create account.");
-    } finally {
-      setIsLoading(false);
+      // Note: we don't set isLoading(false) here because we are redirecting
     }
   };
 
